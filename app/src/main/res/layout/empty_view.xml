@@ -16,7 +16,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:lineSpacingExtra="4dp"
-        android:text="这里没有可操作的文件\n点击右上角Wifi按钮\n然后在PC网页端上传吧~"
+        android:text="这里没有可操作的文件\n点击右上角WIFI按钮\n然后在网页端上传吧~"
         android:textColor="#B19873"
         android:textSize="14sp"
         android:textStyle="bold" />

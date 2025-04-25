@@ -13,6 +13,7 @@ import com.demon.apport.util.LogUtils
 import com.demon.apport.util.NotificationUtils
 import com.demon.apport.util.Tag
 import com.demon.apport.util.WifiUtils
+import com.king.logx.logger.Logger
 
 class WebService : Service() {
 
@@ -32,7 +33,7 @@ class WebService : Service() {
         val action = intent.action
         LogUtils.wtf(Tag, "onStartCommand: $action")
         if (ACTION_START_WEB_SERVICE == action) {
-            val ipAddr = WifiUtils.getIp()
+            val ipAddr = WifiUtils.getWifiIp()
             LogUtils.wtf(Tag, "device ip=$ipAddr")
             WebHelper.instance.startServer(this)
         } else if (ACTION_STOP_WEB_SERVICE == action) {
@@ -52,7 +53,10 @@ class WebService : Service() {
     private fun buildNotification() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startForeground(GRAY_SERVICE_ID, NotificationUtils.createNotificationByChannel(this))
+                startForeground(
+                    GRAY_SERVICE_ID,
+                    NotificationUtils.createNotificationByChannel(this)
+                )
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 startForeground(GRAY_SERVICE_ID, NotificationUtils.buildNotification(this))
             } else {
@@ -87,7 +91,14 @@ class WebService : Service() {
         fun start(context: Context) {
             val intent = Intent(context, WebService::class.java)
             intent.action = ACTION_START_WEB_SERVICE
-            ContextCompat.startForegroundService(context, intent)
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                ContextCompat.startForegroundService(context, intent)
+//                Log.d("TAG","startForegroundService")
+//            } else {
+//                context.startService(intent)
+//                Log.d("TAG","startService")
+//            }
+            context.startService(intent)
         }
 
         fun stop(context: Context) {

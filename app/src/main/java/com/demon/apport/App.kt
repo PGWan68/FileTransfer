@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.demon.apport.util.LogUtils
 import com.demon.qfsolution.QFHelper
+import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.mmkv.MMKV
 
 /**
@@ -25,5 +26,7 @@ class App : Application() {
         val rootDir = MMKV.initialize(this)
         LogUtils.wtf(TAG, "onCreate:  $rootDir")
         QFHelper.init(this, "fileProvider")
+
+        CrashReport.initCrashReport(applicationContext, "e09a5abbfc", false)
     }
 }

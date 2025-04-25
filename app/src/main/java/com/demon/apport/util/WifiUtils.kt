@@ -2,25 +2,29 @@ package com.demon.apport.util
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.net.wifi.WifiManager
-import android.net.wifi.WifiInfo
-import com.demon.apport.util.WifiUtils
-import android.net.NetworkInfo
 import android.net.ConnectivityManager
+import android.net.wifi.WifiManager
 import com.demon.apport.App
+import java.net.Inet4Address
 import java.net.NetworkInterface
+import java.net.SocketException
+import java.util.regex.Pattern
 
 /**
  * Created by masel on 2016/10/10.
  */
 object WifiUtils {
-    const val EMPTY_IP = "0:0:0:0"
+    private const val EMPTY_IP = "0:0:0:0"
+
+    private const val PATTERN_ETH_STR: String = "^eth\\d+$"
+    private val ETH_PATTERN: Pattern = Pattern.compile(PATTERN_ETH_STR)
 
     /***
      * 以太网是否连接
      */
     fun isEthernetConnect(): Boolean {
-        val manager = App.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager =
+            App.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val info = manager.activeNetworkInfo
         if (info?.type != ConnectivityManager.TYPE_ETHERNET) {
             return false
@@ -31,8 +35,47 @@ object WifiUtils {
         return true
     }
 
+
+    @SuppressLint("DefaultLocale")
+    fun getWifiIp(): String {
+        val wifiManager = App.appContext.applicationContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+        val ipAddress = wifiManager.connectionInfo.ipAddress
+        if (ipAddress == 0) {
+            try {
+                val enumerationNi = NetworkInterface.getNetworkInterfaces()
+                while (enumerationNi.hasMoreElements()) {
+                    val networkInterface = enumerationNi.nextElement()
+                    val interfaceName = networkInterface.displayName
+                    if (ETH_PATTERN.matcher(interfaceName)
+                            .matches() || interfaceName == "wlan0"
+                    ) {
+                        val enumIpAddr = networkInterface.inetAddresses
+                        while (enumIpAddr.hasMoreElements()) {
+                            val inetAddress = enumIpAddr.nextElement()
+                            if (!inetAddress.isLoopbackAddress && inetAddress is Inet4Address) {
+                                return inetAddress.getHostAddress() ?: EMPTY_IP
+                            }
+                        }
+                    }
+                }
+            } catch (e: SocketException) {
+                e.printStackTrace()
+            }
+        } else {
+            return String.format(
+                "%d.%d.%d.%d",
+                (ipAddress and 0xff),
+                (ipAddress shr 8 and 0xff),
+                (ipAddress shr 16 and 0xff),
+                (ipAddress shr 24 and 0xff)
+            )
+        }
+        return EMPTY_IP
+    }
+
     fun getIp(): String {
-        val manager = App.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager =
+            App.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetInfo = manager.activeNetworkInfo
         if (activeNetInfo != null) {
             return if (activeNetInfo.type == ConnectivityManager.TYPE_WIFI) {
@@ -77,27 +120,28 @@ object WifiUtils {
         }
     }
 
-    @SuppressLint("WifiManagerLeak")
-    private fun getWifiIp(): String {
-        val wifimanager = App.appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
-        val wifiInfo = wifimanager.connectionInfo
-        return if (wifiInfo != null) {
-            intToIp(wifiInfo.ipAddress)
-        } else {
-            EMPTY_IP
-        }
-    }
-
-    private fun intToIp(i: Int): String {
-        return (i and 0xFF).toString() + "." + (i shr 8 and 0xFF) + "." + (i shr 16 and 0xFF) + "." + (i shr 24 and 0xFF)
-    }
+//    @SuppressLint("WifiManagerLeak")
+//    private fun getWifiIp(): String {
+//        val wifimanager = App.appContext.getSystemService(Context.WIFI_SERVICE) as WifiManager
+//        val wifiInfo = wifimanager.connectionInfo
+//        return if (wifiInfo != null) {
+//            intToIp(wifiInfo.ipAddress)
+//        } else {
+//            EMPTY_IP
+//        }
+//    }
+//
+//    private fun intToIp(i: Int): String {
+//        return (i and 0xFF).toString() + "." + (i shr 8 and 0xFF) + "." + (i shr 16 and 0xFF) + "." + (i shr 24 and 0xFF)
+//    }
 
     /**
      * 有可用的网络
      */
     fun getNetState(): Boolean {
         var flag = false
-        val manager = App.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val manager =
+            App.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val netInfo = manager.allNetworkInfo
         for (info in netInfo) {
             LogUtils.wtf(Tag, "getNetState: ${info.typeName}=${info.isConnected}")

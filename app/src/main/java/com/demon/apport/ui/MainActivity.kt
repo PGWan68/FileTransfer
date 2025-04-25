@@ -42,6 +42,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     override fun initData() {
         setSupportActionBar(binding.toolbar)
+        binding.toolbar.title = getString(R.string.app_name)
         registerReceiver(receiver, filter)
         initEventBus()
         initRecyclerView()
@@ -101,9 +102,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             list.adapter = adapter
             LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).post(0)
             refreshLayout.setColorSchemeResources(
-                android.R.color.holo_blue_bright,
-                android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_blue_bright,
                 android.R.color.holo_red_light
             )
             refreshLayout.setOnRefreshListener { LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).post(0) }
