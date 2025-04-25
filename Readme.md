@@ -1,4 +1,4 @@
-## Homer
+## FileTransfer
 
 ![xxx](https://github.com/iDeMonnnnnn/Homer/blob/master/icon_logo.png?raw=true)
 
@@ -48,7 +48,7 @@
 ### License
 
 ```
-  Copyright [2022] [Homer]
+  Copyright [2022] [FileTransfer]
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
