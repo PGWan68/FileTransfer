@@ -7,8 +7,7 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.LogActivity">
 
-    <include
-        layout="@layout/include_toolbar" />
+    <include layout="@layout/include_toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -21,6 +20,7 @@
         <TextView
             android:id="@+id/tv_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp" />
     </androidx.core.widget.NestedScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

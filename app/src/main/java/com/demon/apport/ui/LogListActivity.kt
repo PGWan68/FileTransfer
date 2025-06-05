@@ -53,11 +53,7 @@ class LogListActivity : BaseActivity<ActivityLogListBinding>() {
     }
 
 
-    class LogHolder constructor(view: View) : RecyclerView.ViewHolder(view) {
-        var tvText: TextView
-
-        init {
-            tvText = view.findViewById(R.id.tvText)
-        }
+    class LogHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var tvText: TextView = view.findViewById(R.id.tvText)
     }
 }

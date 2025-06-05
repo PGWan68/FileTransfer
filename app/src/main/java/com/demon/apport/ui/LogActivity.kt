@@ -19,7 +19,6 @@ class LogActivity : BaseActivity<ActivityLogBinding>() {
 
         val path = intent.getStringExtra("path")
         setTitle(File(path).name)
-        Log.i(TAG, "initData: $path")
         binding.tvContent.text = FileUtils.readText(path)
     }
 }
