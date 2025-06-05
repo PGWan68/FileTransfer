@@ -7,7 +7,8 @@
     android:fitsSystemWindows="true"
     tools:context=".ui.LogActivity">
 
-    <include layout="@layout/include_toolbar" />
+    <include
+        layout="@layout/include_toolbar" />
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"

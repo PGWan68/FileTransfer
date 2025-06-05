@@ -1,7 +1,9 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id "org.jetbrains.kotlin.kapt"
 }
+
 
 Properties properties = new Properties()
 InputStream inputStream = project.rootProject.file('gradle.properties').newDataInputStream()
@@ -20,8 +22,8 @@ android {
         applicationId "com.demon.apport"
         minSdk 21
         targetSdk 34
-        versionCode 1
-        versionName "1.0"
+        versionCode 100
+        versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -65,6 +67,10 @@ android {
     }
 
     namespace "com.demon.apport"
+
+    dataBinding {
+        enabled = true
+    }
 }
 
 dependencies {
@@ -75,7 +81,7 @@ dependencies {
     implementation "androidx.activity:activity-ktx:1.8.2"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
     implementation "com.koushikdutta.async:androidasync:2.+"
-    implementation 'com.github.iDeMonnnnnn:QFsolution:1.2.0'
+    implementation 'com.github.iDeMonnnnnn:QFsolution:1.2.5'
     implementation 'com.github.michaellee123:LiveEventBus:1.8.14'
     implementation 'com.guolindev.permissionx:permissionx:1.6.4'
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.7.0"

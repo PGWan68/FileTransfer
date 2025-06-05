@@ -27,7 +27,7 @@ class LogListActivity : BaseActivity<ActivityLogListBinding>() {
     }
 
     override fun initData() {
-        setToolbar("日志")
+        setTitle("日志")
         list.addAll(LogUtils.getLogFiles(this))
         binding.rvData.adapter = adapter
     }

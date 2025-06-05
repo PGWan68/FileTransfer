@@ -18,7 +18,7 @@ class LogActivity : BaseActivity<ActivityLogBinding>() {
     override fun initData() {
 
         val path = intent.getStringExtra("path")
-        setToolbar(File(path).name)
+        setTitle(File(path).name)
         Log.i(TAG, "initData: $path")
         binding.tvContent.text = FileUtils.readText(path)
     }

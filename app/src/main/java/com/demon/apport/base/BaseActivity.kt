@@ -1,14 +1,10 @@
 package com.demon.apport.base
 
-import android.app.Activity
-import android.content.pm.ActivityInfo
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
-import androidx.annotation.StringRes
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -36,17 +32,8 @@ abstract class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
     }
 
 
-    fun setToolbar(@StringRes id: Int) {
-        setToolbar(getString(id))
-    }
-
-    open fun setToolbar(title: String) {
-        findViewById<Toolbar>(R.id.toolbar)?.run {
-            setTitle(title)
-            setNavigationOnClickListener {
-                finish()
-            }
-        }
+    open fun setTitle(title: String) {
+        findViewById<TextView>(R.id.tvTitle).text = title
     }
 
 

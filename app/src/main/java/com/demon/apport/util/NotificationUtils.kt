@@ -33,9 +33,9 @@ object NotificationUtils {
         )
         val mNotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         // 用户可以看到的通知渠道的名字.
-        val name: CharSequence = context.getString(R.string.app_name)
+        val name: CharSequence = context.getString(R.string.app_title)
         // 用户可以看到的通知渠道的描述
-        val description = context.getString(R.string.app_name) + context.getString(R.string.notification_desc)
+        val description = context.getString(R.string.app_title) + context.getString(R.string.notification_desc)
         // 在notificationManager中创建该通知渠道
         // 仅需要常驻通知栏，所以级别是low
         val channel: NotificationChannel = createLowNotificationChannel(ALIVE_ID, "运行服务", description)
@@ -117,7 +117,7 @@ object NotificationUtils {
         builder.setSmallIcon(R.mipmap.icon_logo)
         //builder.setTicker(context.getString(R.string.app_name))
         //builder.setContentTitle(context.getString(R.string.app_name))
-        builder.setContentText(context.getString(R.string.app_name) + context.getString(R.string.notification_desc))
+        builder.setContentText(context.getString(R.string.app_title) + context.getString(R.string.notification_desc))
         builder.setContentIntent(pIntent)
         builder.setOngoing(true)
         return builder.build()

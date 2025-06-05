@@ -35,6 +35,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.LogActivity" android:screenOrientation="landscape"/>
+        <activity android:name=".ui.ReceivedFilesActivity" android:screenOrientation="landscape"/>
         <activity android:name=".ui.LogListActivity" android:screenOrientation="landscape"/>
         <activity android:name=".ui.ChangePathActivity" android:screenOrientation="landscape"/>
 

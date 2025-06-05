@@ -10,7 +10,6 @@ import com.demon.apport.data.Constants
 import com.demon.apport.databinding.ActivityChangePathBinding
 import com.demon.apport.service.WebHelper
 import com.demon.apport.util.LogUtils
-import com.demon.apport.util.Tag
 import com.demon.apport.util.get
 import com.demon.apport.util.mmkv
 import com.demon.apport.util.put
@@ -41,7 +40,7 @@ class ChangePathActivity : BaseActivity<ActivityChangePathBinding>() {
 
 
     override fun initData() {
-        setToolbar("修改存储路径")
+        setTitle("修改存储路径")
 
         val def: String = App.appContext.getExternalOrFilesDirPath(Environment.DIRECTORY_DCIM)
         val nowPath = "当前存储路径：${mmkv.get(Constants.MMKV_STORAGE_PATH, def)}"

@@ -5,6 +5,8 @@ import android.content.IntentFilter
 import android.net.wifi.WifiManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.demon.apport.R
 import com.demon.apport.base.BaseActivity
@@ -23,10 +25,10 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
-    private val mApps: MutableList<InfoModel> = mutableListOf()
+    private val mFiles: MutableList<InfoModel> = mutableListOf()
 
     private val adapter by lazy {
-        FilesAdapter(mApps)
+        FilesAdapter(mFiles)
     }
 
     private val receiver by lazy {
@@ -41,30 +43,28 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initData() {
-        setSupportActionBar(binding.toolbar)
-        binding.toolbar.title = getString(R.string.app_name)
+        initToolbar()
         registerReceiver(receiver, filter)
         initEventBus()
         initRecyclerView()
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_setting -> {
-                val intent = Intent(this@MainActivity, SettingActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.menu_wifi -> {
-                LogUtils.wtf(Tag, "Server.isRunning=${WebHelper.instance.isConnected()}")
-                WifiStateDialog().showAllowingState(supportFragmentManager)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+    private fun initToolbar() {
+        setTitle(getString(R.string.app_title))
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.item_menu, menu) //加载menu布局
-        return true
+        val ivWifi = findViewById<ImageView>(R.id.ivWifi)
+        ivWifi.visibility = View.VISIBLE
+        ivWifi.setOnClickListener {
+            LogUtils.wtf(Tag, "Server.isRunning=${WebHelper.instance.isConnected()}")
+            WifiStateDialog().showAllowingState(supportFragmentManager)
+        }
+
+        val ivSetting = findViewById<ImageView>(R.id.ivSetting)
+        ivSetting.visibility = View.VISIBLE
+        ivSetting.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SettingActivity::class.java))
+        }
+
     }
 
     override fun onDestroy() {
@@ -79,8 +79,8 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             val listArr: MutableList<InfoModel> = FileUtils.getAllFiles(this@MainActivity)
             runOnUiThread {
                 binding.refreshLayout.isRefreshing = false
-                mApps.clear()
-                mApps.addAll(listArr)
+                mFiles.clear()
+                mFiles.addAll(listArr)
                 adapter.notifyDataSetChanged()
             }
         }
@@ -107,7 +107,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 android.R.color.holo_blue_bright,
                 android.R.color.holo_red_light
             )
-            refreshLayout.setOnRefreshListener { LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).post(0) }
+            refreshLayout.setOnRefreshListener {
+                LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).post(0)
+            }
         }
     }
 
