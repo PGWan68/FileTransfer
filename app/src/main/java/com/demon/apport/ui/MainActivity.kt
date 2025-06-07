@@ -26,6 +26,7 @@ import com.jeremyliao.liveeventbus.LiveEventBus
 class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private val mFiles: MutableList<InfoModel> = mutableListOf()
+    private var dialog: WifiStateDialog? = null
 
     private val adapter by lazy {
         FilesAdapter(mFiles)
@@ -38,15 +39,29 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     private val filter by lazy {
         IntentFilter().apply {
             addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION)
-            //addAction(ConnectivityManager.CONNECTIVITY_ACTION)
         }
     }
 
     override fun initData() {
+
+        val info = InfoModel()
+        info.name = "测试文件"
+        info.type = 1
+        info.path = "path/path/path/path/path/path/path/path/path"
+        info.size = "100M"
+        info.icon = resources.getDrawable(R.drawable.icon_wifi)
+
+        mFiles.add(info)
+
+
         initToolbar()
-        registerReceiver(receiver, filter)
+        initReceiver()
         initEventBus()
         initRecyclerView()
+    }
+
+    private fun initReceiver() {
+        registerReceiver(receiver, filter)
     }
 
     private fun initToolbar() {
@@ -56,7 +71,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         ivWifi.visibility = View.VISIBLE
         ivWifi.setOnClickListener {
             LogUtils.wtf(Tag, "Server.isRunning=${WebHelper.instance.isConnected()}")
-            WifiStateDialog().showAllowingState(supportFragmentManager)
+
+            dialog = WifiStateDialog()
+            dialog?.showAllowingState(supportFragmentManager)
         }
 
         val ivSetting = findViewById<ImageView>(R.id.ivSetting)
@@ -78,6 +95,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).observe(this) {
             val listArr: MutableList<InfoModel> = FileUtils.getAllFiles(this@MainActivity)
             runOnUiThread {
+                dialog?.hide()
                 binding.refreshLayout.isRefreshing = false
                 mFiles.clear()
                 mFiles.addAll(listArr)

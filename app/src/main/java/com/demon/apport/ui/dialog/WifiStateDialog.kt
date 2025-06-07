@@ -1,9 +1,7 @@
 package com.demon.apport.ui.dialog
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.Settings
 import android.view.*
@@ -35,7 +33,9 @@ class WifiStateDialog : DialogFragment() {
         dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View? {
         dialog?.run {
             isCancelable = true
             setCanceledOnTouchOutside(true)
@@ -45,7 +45,7 @@ class WifiStateDialog : DialogFragment() {
         return _binding?.root
     }
 
-    private fun padding(num :Int ): Int {
+    private fun padding(num: Int): Int {
         return num.dp2px
     }
 
@@ -54,7 +54,9 @@ class WifiStateDialog : DialogFragment() {
         dialog?.window?.run {
             setGravity(Gravity.CENTER)
             setBackgroundDrawable(Color.DKGRAY.toDrawable())
-            setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            setLayout(
+                WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT
+            )
 //            decorView.setPadding(padding(20), padding(20), padding(10), padding(10))
         }
 
@@ -113,10 +115,12 @@ class WifiStateDialog : DialogFragment() {
             mTxtStateHint.setText(R.string.pls_input_the_following_address_in_pc_browser)
             mTxtAddress.visibility = View.VISIBLE
             val ipAddr = WifiUtils.getWifiIp()
-            val strText = String.format(requireContext().getString(R.string.http_address), ipAddr, Constants.HTTP_PORT)
-            mTxtAddress.text =strText
+            val strText = String.format(
+                requireContext().getString(R.string.http_address), ipAddr, Constants.HTTP_PORT
+            )
+            mTxtAddress.text = strText
             mBtnWifiSettings.visibility = View.GONE
-            val qrCode = CodeUtils.createQRCode(strText,300)
+            val qrCode = CodeUtils.createQRCode(strText, 300)
             mImgLanState.setImageBitmap(qrCode)
         }
     }
@@ -139,4 +143,13 @@ class WifiStateDialog : DialogFragment() {
     open fun showAllowingState(manager: FragmentManager, tagStr: String? = null) {
         manager.beginTransaction().add(this, tagStr ?: tag).commitAllowingStateLoss()
     }
+
+
+    open fun hide() {
+        if (dialog?.isShowing == true) {
+            dismissAllowingStateLoss()
+        }
+
+    }
+
 }
