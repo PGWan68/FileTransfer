@@ -2,11 +2,13 @@ package com.demon.apport.ui
 
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Resources
 import android.net.wifi.WifiManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.demon.apport.R
 import com.demon.apport.base.BaseActivity
@@ -43,17 +45,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
     }
 
     override fun initData() {
-
-        val info = InfoModel()
-        info.name = "测试文件"
-        info.type = 1
-        info.path = "path/path/path/path/path/path/path/path/path"
-        info.size = "100M"
-        info.icon = resources.getDrawable(R.drawable.icon_wifi)
-
-        mFiles.add(info)
-
-
         initToolbar()
         initReceiver()
         initEventBus()
@@ -97,7 +88,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             runOnUiThread {
                 dialog?.hide()
                 binding.refreshLayout.isRefreshing = false
-                mFiles.clear()
+//                mFiles.clear()
                 mFiles.addAll(listArr)
                 adapter.notifyDataSetChanged()
             }
