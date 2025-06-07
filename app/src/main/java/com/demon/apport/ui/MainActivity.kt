@@ -88,7 +88,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
             runOnUiThread {
                 dialog?.hide()
                 binding.refreshLayout.isRefreshing = false
-//                mFiles.clear()
+                mFiles.clear()
                 mFiles.addAll(listArr)
                 adapter.notifyDataSetChanged()
             }
