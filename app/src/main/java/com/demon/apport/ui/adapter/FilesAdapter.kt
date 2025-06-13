@@ -52,7 +52,7 @@ class FilesAdapter constructor(val mList: MutableList<InfoModel> = mutableListOf
                 holder.ivIcon.setImageResource(FileUtils.getIconByPath(infoModel.path))
             }
             holder.mOpen.setOnClickListener {
-                FileUtils.openFileorAPk(mContext, infoModel)
+                FileUtils.openFileOrAPk(mContext, infoModel)
             }
             holder.mDelete.setOnClickListener { FileUtils.delete(infoModel.path) }
         }

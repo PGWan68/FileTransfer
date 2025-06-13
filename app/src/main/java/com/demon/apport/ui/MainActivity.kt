@@ -72,7 +72,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         ivSetting.setOnClickListener {
             startActivity(Intent(this@MainActivity, SettingActivity::class.java))
         }
-
     }
 
     override fun onDestroy() {
@@ -80,7 +79,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         unregisterReceiver(receiver)
         WebService.stop(this)
     }
-
 
     private fun initEventBus() {
         LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).observe(this) {

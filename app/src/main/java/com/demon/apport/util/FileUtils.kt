@@ -9,7 +9,6 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import android.os.Environment
 import android.provider.Settings
 import android.text.TextUtils
 import android.util.DisplayMetrics
@@ -67,7 +66,7 @@ object FileUtils {
         return list
     }
 
-    fun openFileorAPk(mContext: Context, infoModel: InfoModel) {
+    fun openFileOrAPk(mContext: Context, infoModel: InfoModel) {
         if (infoModel.isApk()) {
             installAPk(mContext, infoModel.path)
         } else {
@@ -80,14 +79,14 @@ object FileUtils {
             val installAllowed = mContext.packageManager.canRequestPackageInstalls()
             if (installAllowed) {
                 openFile(mContext, File(path))
-            } else {
-                val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:${mContext.packageName}"))
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                mContext.startActivity(intent)
             }
-        } else {
-            openFile(mContext, File(path))
+//            else {
+//                val intent = Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:${mContext.packageName}"))
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                mContext.startActivity(intent)
+//            }
         }
+        openFile(mContext, File(path))
     }
 
 
@@ -176,7 +175,8 @@ object FileUtils {
         val pm = context.packageManager
         try {
             val pi = pm.getPackageInfo(packageName, 0)
-            val otherAppCtx = context.createPackageContext(packageName, AppCompatActivity.CONTEXT_IGNORE_SECURITY)
+            val otherAppCtx =
+                context.createPackageContext(packageName, AppCompatActivity.CONTEXT_IGNORE_SECURITY)
             val displayMetrics = intArrayOf(
                 DisplayMetrics.DENSITY_XXXHIGH,
                 DisplayMetrics.DENSITY_XXHIGH,
@@ -186,7 +186,10 @@ object FileUtils {
             )
             for (displayMetric in displayMetrics) {
                 try {
-                    val d = otherAppCtx.resources.getDrawableForDensity(pi.applicationInfo.icon, displayMetric)
+                    val d = otherAppCtx.resources.getDrawableForDensity(
+                        pi.applicationInfo.icon,
+                        displayMetric
+                    )
                     if (d != null) {
                         return d
                     }
@@ -208,7 +211,8 @@ object FileUtils {
             //兼容7.0
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
-                val contentUri = FileProvider.getUriForFile(context, context.packageName + ".fileProvider", file)
+                val contentUri =
+                    FileProvider.getUriForFile(context, context.packageName + ".fileProvider", file)
                 intent.setDataAndType(contentUri, file.name.getMimeTypeByFileName())
             } else {
                 intent.setDataAndType(Uri.fromFile(file), file.name.getMimeTypeByFileName())

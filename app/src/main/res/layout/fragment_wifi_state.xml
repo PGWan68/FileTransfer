@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:background="@color/white"
@@ -8,15 +8,15 @@
     android:clipToPadding="false"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingStart="56dp"
-    android:paddingTop="36dp"
-    android:paddingEnd="56dp"
-    android:paddingBottom="36dp">
+    android:paddingStart="48dp"
+    android:paddingTop="32dp"
+    android:paddingEnd="48dp"
+    android:paddingBottom="32dp">
 
     <TextView
         android:id="@+id/mTxtTitle"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/wlan_enabled"
@@ -24,8 +24,8 @@
 
     <TextView
         android:id="@+id/mTxtSubTitle"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
         android:text="@string/pls_check_network_state"
@@ -36,28 +36,23 @@
         android:id="@+id/mImgLanState"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:scaleType="centerInside"
         android:src="@drawable/shared_wifi_enable" />
 
     <TextView
         android:id="@+id/mTxtStateHint"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text=""
+        android:text="请在浏览器地址栏完整输入"
         android:textSize="15sp" />
 
     <TextView
         android:id="@+id/mTxtAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
+        android:layout_marginTop="10dp"
         android:text="http://0.0.0.0:0000"
         android:textColor="@color/colorAccent"
         android:textSize="18sp" />
@@ -69,5 +64,6 @@
         android:layout_height="50dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/set_network"
-        android:textColor="@color/colorAccent" />
+        android:textColor="@color/colorAccent"
+        android:visibility="gone" />
 </LinearLayout>

@@ -1,23 +1,13 @@
 package com.demon.apport.ui
 
-import android.Manifest
-import android.os.Build
 import android.os.Environment
-import androidx.activity.result.contract.ActivityResultContracts
 import com.demon.apport.App
 import com.demon.apport.base.BaseActivity
 import com.demon.apport.data.Constants
 import com.demon.apport.databinding.ActivityChangePathBinding
-import com.demon.apport.service.WebHelper
-import com.demon.apport.util.LogUtils
 import com.demon.apport.util.get
 import com.demon.apport.util.mmkv
-import com.demon.apport.util.put
-import com.demon.apport.util.toast
 import com.demon.qfsolution.utils.getExternalOrFilesDirPath
-import com.demon.qfsolution.utils.uriToFile
-import com.permissionx.guolindev.PermissionX
-import java.io.File
 
 
 /**
@@ -26,7 +16,7 @@ import java.io.File
  * email liu_demon@qq.com
  * desc
  */
-class ChangePathActivity : BaseActivity<ActivityChangePathBinding>() {
+class FilesPathActivity : BaseActivity<ActivityChangePathBinding>() {
 
 
 //    private var changePath = ""

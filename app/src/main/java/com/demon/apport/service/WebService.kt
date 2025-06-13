@@ -29,17 +29,18 @@ class WebService : Service() {
         buildNotification()
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val action = intent.action
-        LogUtils.wtf(Tag, "onStartCommand: $action")
-        if (ACTION_START_WEB_SERVICE == action) {
-            val ipAddr = WifiUtils.getWifiIp()
-            LogUtils.wtf(Tag, "device ip=$ipAddr")
-            WebHelper.instance.startServer(this)
-        } else if (ACTION_STOP_WEB_SERVICE == action) {
-            WebHelper.instance.stopService()
-
-            stopSelf()
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        if (intent != null && intent.action != null) {
+            val action = intent.action
+            LogUtils.wtf(Tag, "onStartCommand: $action")
+            if (ACTION_START_WEB_SERVICE == action) {
+                val ipAddr = WifiUtils.getWifiIp()
+                LogUtils.wtf(Tag, "device ip=$ipAddr")
+                WebHelper.instance.startServer(this)
+            } else if (ACTION_STOP_WEB_SERVICE == action) {
+                WebHelper.instance.stopService()
+                stopSelf()
+            }
         }
         return START_STICKY
     }
@@ -54,8 +55,7 @@ class WebService : Service() {
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForeground(
-                    GRAY_SERVICE_ID,
-                    NotificationUtils.createNotificationByChannel(this)
+                    GRAY_SERVICE_ID, NotificationUtils.createNotificationByChannel(this)
                 )
             } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 startForeground(GRAY_SERVICE_ID, NotificationUtils.buildNotification(this))

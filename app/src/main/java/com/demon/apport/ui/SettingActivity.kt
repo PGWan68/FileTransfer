@@ -2,6 +2,7 @@ package com.demon.apport.ui
 
 import android.content.Intent
 import android.os.Environment
+import android.widget.Toast
 import com.demon.apport.App
 import com.demon.apport.base.BaseActivity
 import com.demon.apport.data.Constants
@@ -19,13 +20,14 @@ class SettingActivity : BaseActivity<ActivitySettingBinding>() {
         binding.run {
 
             tvPath.setOnClickListener {
-                val intent = Intent(this@SettingActivity, ChangePathActivity::class.java)
+                val intent = Intent(this@SettingActivity, FilesPathActivity::class.java)
                 startActivity(intent)
             }
             tvDelete.setOnClickListener {
                 val def: String =
                     App.appContext.getExternalOrFilesDirPath(Environment.DIRECTORY_DCIM)
                 FileUtils.deleteAll(mmkv.get(Constants.MMKV_STORAGE_PATH, def))
+                Toast.makeText(this@SettingActivity, "已全部删除", Toast.LENGTH_SHORT).show()
             }
             tvLog.setOnClickListener {
                 val intent = Intent(this@SettingActivity, LogListActivity::class.java)
