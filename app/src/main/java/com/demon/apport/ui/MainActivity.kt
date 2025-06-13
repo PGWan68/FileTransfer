@@ -82,14 +82,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
 
     private fun initEventBus() {
         LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).observe(this) {
-            val listArr: MutableList<InfoModel> = FileUtils.getAllFiles(this@MainActivity)
-            runOnUiThread {
-                dialog?.hide()
-                binding.refreshLayout.isRefreshing = false
-                mFiles.clear()
-                mFiles.addAll(listArr)
-                adapter.notifyDataSetChanged()
-            }
+            updateMainUI()
         }
 
         LiveEventBus.get<Boolean>(Constants.WIFI_CONNECT_CHANGE_EVENT).observe(this) {
@@ -101,13 +94,23 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
         }
     }
 
+    private fun updateMainUI() {
+        val listArr: MutableList<InfoModel> = FileUtils.getAllFiles(this@MainActivity)
+        runOnUiThread {
+            dialog?.hide()
+            binding.refreshLayout.isRefreshing = false
+            mFiles.clear()
+            mFiles.addAll(listArr)
+            adapter.notifyDataSetChanged()
+        }
+    }
+
 
     private fun initRecyclerView() {
         binding.run {
             list.setHasFixedSize(true)
             list.layoutManager = LinearLayoutManager(this@MainActivity)
             list.adapter = adapter
-            LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).post(0)
             refreshLayout.setColorSchemeResources(
                 android.R.color.holo_orange_light,
                 android.R.color.holo_green_light,
@@ -115,8 +118,9 @@ class MainActivity : BaseActivity<ActivityMainBinding>() {
                 android.R.color.holo_red_light
             )
             refreshLayout.setOnRefreshListener {
-                LiveEventBus.get<Int>(Constants.LOAD_BOOK_LIST).post(0)
+                updateMainUI()
             }
+            updateMainUI()
         }
     }
 
