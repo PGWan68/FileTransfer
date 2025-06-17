@@ -374,15 +374,15 @@ $(function() {
 	
 	function showHtml5View() {
 		var dragAree = $('<div id="drag_area"><div class="drag_hint">' + STRINGS.DRAG_TO_HERE + '</div></div)').addClass('normal').appendTo('#logo');
-        $('#upload_hint').empty();
-		$('<div>'+STRINGS.SELECT_YOUR_FILES+'<br />'+STRINGS.SUPPORTED_FILE_TYPES+'</div>')
-			.addClass('hint')
-			.insertAfter('#upload_button');
-            
+//        $('#upload_hint').empty();
+//		$('<div>'+STRINGS.SELECT_YOUR_FILES+'<br />'+STRINGS.SUPPORTED_FILE_TYPES+'</div>')
+//			.addClass('hint');
+//			.insertAfter('#upload_button');
+
         var buttonLabels = $('<div class="button_lables"></div>').prependTo("#upload_button")
         $('<div class="button_lable1"></div>').text(STRINGS.SELECT_BUTTON_LABLE1).appendTo(buttonLabels);
         $('<div class="button_lable2"></div>').text(STRINGS.SELECT_BUTTON_LABLE2).appendTo(buttonLabels);
-        
+
 		dragUpload();
 	}
 	
